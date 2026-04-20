@@ -32,11 +32,11 @@ function App() {
           <Route path="features/community" element={<Community />} />
           <Route path="features/journal" element={<Journal />} />
 
-          
+
           <Route path="testimonials" element={<Testimonials />} />
           <Route path="login" element={<Login />} />
-          <Route path="signUp" element={<Register />} />
-         
+          <Route path="signup" element={<Register />} />
+
         </Routes>
 
         <Footer />

@@ -2,39 +2,35 @@
 import { useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
-import {useSelector} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Journal = () => {
   const [entries, setEntries] = useState([]);
   const [currentEntry, setCurrentEntry] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date] = useState(new Date().toISOString().split("T")[0]);
 
-  const navigate = useNavigate()
- 
-  const {user} = useSelector((state) => state.auth)
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!user) {
       toast.error("Please Login or Sign Up");
       setTimeout(() => {
         navigate("/login");
-      }, 2000); // Delay navigation by 1 second
+      }, 2000);
     }
   }, [user, navigate]);
 
- 
-
-  // Load entries from local storage or API on component mount
   useEffect(() => {
-    const savedEntries = JSON.parse(localStorage.getItem("journalEntries")) || [];
+    const savedEntries =
+      JSON.parse(localStorage.getItem("journalEntries")) || [];
     setEntries(savedEntries);
   }, []);
 
   const handleSave = () => {
     if (!currentEntry.trim()) {
-     
-      toast.error('Please fill the journal entry')
+      toast.error("Please write something before saving.");
       return;
     }
 
@@ -42,82 +38,86 @@ const Journal = () => {
     const updatedEntries = [...entries, newEntry];
     setEntries(updatedEntries);
     setCurrentEntry("");
-    
-  
 
-    // Save to local storage or API
     localStorage.setItem("journalEntries", JSON.stringify(updatedEntries));
-
-   toast.success('Journal created successfully')
+    toast.success("Journal saved successfully 🌿");
   };
 
   const handleDelete = (index) => {
     const updatedEntries = entries.filter((_, i) => i !== index);
     setEntries(updatedEntries);
     localStorage.setItem("journalEntries", JSON.stringify(updatedEntries));
-    toast.error('Journal deleted successfully')
+    toast.info("Entry removed.");
   };
 
-  
-
   return (
-    <div className="p-6 dbg-neutral-900  min-h-screen">
+    <div className="min-h-screen bg-[#F4F9F9] px-6 py-12">
       <ToastContainer />
-      <h1 className="text-4xl font-bold text-center text-blue-600 mb-8">
+
+      {/* Page Title */}
+      <h1 className="text-4xl font-bold text-center text-[#457B9D] mb-10">
         Your Personal Journal
       </h1>
 
-      <div className=" bg-neutral-700 shadow-lg md:max-w-3xl m-auto rounded-lg p-6 mb-6">
-        <h2 className="text-2xl font-semibold  text-white mb-4">
+      {/* Write Section */}
+      <div className="bg-white md:max-w-3xl m-auto rounded-2xl p-8 mb-12 shadow-md border border-[#E6EFF2]">
+        <h2 className="text-2xl font-semibold text-[#457B9D] mb-4">
           Write Your Thoughts
         </h2>
+
         <textarea
-          className="w-full bg-neutral-800 text-white h-36 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
-          placeholder="What's on your mind today?"
+          className="w-full bg-[#F8FBFB] text-[#2E2E2E] h-40 p-4 rounded-xl border border-[#DDEEEE] focus:outline-none focus:ring-2 focus:ring-[#A8DADC] placeholder-[#9AA6AC]"
+          placeholder="What’s on your mind today?"
           value={currentEntry}
           onChange={(e) => setCurrentEntry(e.target.value)}
-        ></textarea>
-        <div className="flex justify-between items-center mt-4">
+        />
+
+        <div className="flex justify-end mt-6">
           <button
             onClick={handleSave}
-            className="btn btn-info"
+            className="bg-[#A8DADC] hover:bg-[#81B29A] text-[#2E2E2E] px-6 py-3 rounded-full shadow-sm transition duration-300"
           >
             Save Entry
           </button>
-         
         </div>
-     
       </div>
 
-      <div className="mt-8">
-        <h2 className="text-2xl  mt-7 text-center  font-bold text-pink-500 mb-4">
+      {/* Entries Section */}
+      <div className="md:max-w-3xl m-auto">
+        <h2 className="text-2xl font-bold text-center text-[#457B9D] mb-6">
           Your Journal Entries
         </h2>
+
         {entries.length > 0 ? (
-          <div className="space-y-6 overflow-y-scroll h-96 mb-7 scroll-container">
+          <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2">
             {entries.map((entry, index) => (
               <div
                 key={index}
-                className="bg-neutral-800 md:max-w-3xl m-auto shadow-lg rounded-lg p-5 border-l-4 border-blue-500"
+                className="bg-white rounded-2xl p-6 shadow-sm border border-[#E6EFF2] hover:shadow-md transition duration-300"
               >
-                <div className="flex justify-between items-start">
+                <div className="flex justify-between items-start gap-4">
                   <div>
-                    <p className="text-gray-500 text-sm">{entry.date}</p>
-                    <p className="text-white mt-3">{entry.content}</p>
+                    <p className="text-sm text-[#6C757D]">
+                      {entry.date}
+                    </p>
+                    <p className="text-[#2E2E2E] mt-3 leading-relaxed whitespace-pre-wrap">
+                      {entry.content}
+                    </p>
                   </div>
+
                   <button
                     onClick={() => handleDelete(index)}
-                    className="text-red-500 hover:text-red-600 hover:underline text-sm"
+                    className="text-[#A8DADC] hover:text-[#E76F51] transition duration-300"
                   >
-                    <MdDelete size={28} />
+                    <MdDelete size={24} />
                   </button>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 font-semibold text-center">
-            No entries yet. Start writing your first one!
+          <p className="text-[#6C757D] text-center">
+            No entries yet. Start writing your first one 🌿
           </p>
         )}
       </div>

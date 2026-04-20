@@ -1,17 +1,15 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-
-import { register, reset } from '../features/authSlice';
-
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import { register, reset } from "../features/authSlice";
 
 function Register() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-   
+    name: "",
+    email: "",
+    password: "",
   });
 
   const { name, email, password } = formData;
@@ -25,13 +23,12 @@ function Register() {
 
   useEffect(() => {
     if (isError) {
-      
       toast.error(message);
     }
 
     if (isSuccess || user) {
-      toast.success('User Registered Successfully')
-      navigate('/features');
+      toast.success("User Registered Successfully 🌿");
+      navigate("/features");
     }
 
     dispatch(reset());
@@ -44,7 +41,6 @@ function Register() {
     }));
   };
 
-  
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -52,91 +48,82 @@ function Register() {
       name,
       email,
       password,
-      
     };
 
     dispatch(register(userData));
   };
 
+  // 🌿 Calm Loading Spinner
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-96">
-        <div className="loader border-t-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
+      <div className="min-h-screen flex justify-center items-center bg-[#F4F9F9]">
+        <div className="w-12 h-12 border-4 border-[#A8DADC] border-t-transparent rounded-full animate-spin"></div>
       </div>
-    )
+    );
   }
 
   return (
-    <div
-    className=" flex items-center justify-center h-screen "
-    style={{
-      backgroundImage: "url('https://res.cloudinary.com/dmdlgpurh/image/upload/v1736879584/pexels-souvenirpixels-1542493_dke22u.jpg')",
-      backgroundSize: "cover",      // Ensures the image covers the entire div
-      backgroundPosition: "center", // Centers the image in the div
-      backgroundRepeat: "no-repeat" // Prevents tiling of the image
-    }}
-    >
-
+    <div className="min-h-screen bg-[#F4F9F9] flex items-center justify-center px-6">
       <ToastContainer />
-      <section className="mx-auto border border-gray-300  backdrop-blur-sm shadow-md  md:w-96 px-4 py-4 text-center  rounded-3xl">
-        <form onSubmit={onSubmit} className='md:w-full w-64'>
-          <div>
-            <input
-              type="text"
-              className="py-2.5 px-3 border-2 w-64  focus:outline-none focus:ring-1 backdrop-blur-sm bg-neutral-900 focus:ring-gray-500 rounded-xl md:w-80   caret-yellow-500 text-rose-500 mb-8"
-              id="name"
-              name="name"
-              value={name}
-              placeholder="Enter your name"
-              onChange={onChange}
-            />
-          </div>
-          <div>
-            <input
-              type="email"
-              className="py-2.5 px-3 border-2 w-64  focus:outline-none focus:ring-1 backdrop-blur-sm bg-neutral-900 focus:ring-gray-500 rounded-xl md:w-80   caret-yellow-500 text-rose-500 mb-8"
-              id="email"
-              name="email"
-              value={email}
-              placeholder="Enter your email"
-              onChange={onChange}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              className="py-2.5 px-3 border-2  w-64 focus:outline-none focus:ring-1 backdrop-blur-sm bg-neutral-900 focus:ring-gray-500 rounded-xl md:w-80   caret-yellow-500 text-rose-500 mb-8"
-              id="password"
-              name="password"
-              value={password}
-              placeholder="Enter password"
-              onChange={onChange}
-            />
-          </div>
 
-         
-       
+      <section className="bg-white shadow-md border border-[#E6EFF2] rounded-3xl p-10 md:w-96 w-full">
 
-          <div>
-            <button
-              type="submit"
-              className="bg-sky-400 hover:bg-sky-500  md:w-40 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+        <h2 className="text-3xl font-bold text-center text-[#457B9D] mb-8">
+          Create Your Account
+        </h2>
+
+        <form onSubmit={onSubmit} className="space-y-6">
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={name}
+            placeholder="Full Name"
+            onChange={onChange}
+            required
+            className="w-full px-4 py-3 rounded-xl border border-[#DDEEEE] bg-[#F8FBFB] focus:outline-none focus:ring-2 focus:ring-[#A8DADC] text-[#2E2E2E]"
+          />
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            placeholder="Email Address"
+            onChange={onChange}
+            required
+            className="w-full px-4 py-3 rounded-xl border border-[#DDEEEE] bg-[#F8FBFB] focus:outline-none focus:ring-2 focus:ring-[#A8DADC] text-[#2E2E2E]"
+          />
+
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            placeholder="Password"
+            onChange={onChange}
+            required
+            className="w-full px-4 py-3 rounded-xl border border-[#DDEEEE] bg-[#F8FBFB] focus:outline-none focus:ring-2 focus:ring-[#A8DADC] text-[#2E2E2E]"
+          />
+
+          <button
+            type="submit"
+            className="w-full bg-[#A8DADC] hover:bg-[#81B29A] text-[#2E2E2E] font-semibold py-3 rounded-full transition duration-300 shadow-sm"
+          >
+            Sign Up
+          </button>
+
+          <p className="text-center text-[#6C757D]">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-[#457B9D] hover:text-[#81B29A] font-medium transition duration-300"
             >
-              Sign Up
-            </button>
-          </div>
+              Log In
+            </Link>
+          </p>
 
-          <div>
-            <p className="font-medium text-1xl  mt-3">
-              Already have an account?{' '}
-              <Link
-                to="/login"
-                className="text-sky-600 hover:text-sky-700 font-extrabold"
-              >
-                Log In
-              </Link>
-            </p>
-          </div>
         </form>
       </section>
     </div>

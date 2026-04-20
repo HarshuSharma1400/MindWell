@@ -5,7 +5,6 @@ function Meditation() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const handleCardClick = (index) => {
-    // Toggle hover state for the clicked card
     setHoveredIndex(hoveredIndex === index ? null : index);
   };
 
@@ -18,21 +17,24 @@ function Meditation() {
   };
 
   return (
-    <div>
-      <h1 className="text-center md:text-4xl text-xl mb-8 font-bold mt-5 text-sky-600">
-      Your Guide to Mental Clarity: Meditation Videos
+    <div className="min-h-screen bg-[#F4F9F9] px-6 py-12">
+
+      {/* Heading */}
+      <h1 className="text-center md:text-4xl text-2xl font-bold mb-12 text-[#457B9D]">
+        Your Guide to Mental Clarity
       </h1>
 
-      <div className="flex justify-center mb-7 flex-wrap gap-y-5 gap-x-8 mt-6">
+      {/* Cards */}
+      <div className="flex justify-center flex-wrap gap-x-8 gap-y-10">
         {mediation.map((data, index) => (
           <div
             key={index}
-            className="card card-compact bg-neutral-900 md:w-80  shadow-xl"
-            onMouseEnter={() => handleMouseEnter(index)} // Works on desktop
-            onMouseLeave={handleMouseLeave} // Works on desktop
-            onClick={() => handleCardClick(index)} // Works on mobile
+            className="w-80 bg-white rounded-2xl shadow-md border border-[#E6EFF2] hover:shadow-lg transition duration-300 cursor-pointer"
+            onMouseEnter={() => handleMouseEnter(index)}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => handleCardClick(index)}
           >
-            <figure>
+            <figure className="rounded-t-2xl overflow-hidden">
               {hoveredIndex === index ? (
                 <iframe
                   title="Meditation Video"
@@ -43,7 +45,7 @@ function Meditation() {
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="transition-all duration-500 ease-in-out"
-                ></iframe>
+                />
               ) : (
                 <img
                   src={data.image}
@@ -52,18 +54,25 @@ function Meditation() {
                 />
               )}
             </figure>
-            <div className="card-body">
-              <h2 className="card-title text-teal-400">{data.title}</h2>
-              <p className="text-center font-medium ">{data.author}</p>
-              <div className="card-actions justify-center">
-                <a
-                  href={data.video}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <button className="bg-sky-600 hover:bg-red-600 py-2 text-black font-semibold px-3 rounded-lg">Watch Now</button>
-                </a>
-              </div>
+
+            <div className="p-5 text-center">
+              <h2 className="text-lg font-semibold text-[#457B9D] mb-2">
+                {data.title}
+              </h2>
+
+              <p className="text-[#6C757D] text-sm mb-4">
+                {data.author}
+              </p>
+
+              <a
+                href={data.video}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="bg-[#A8DADC] hover:bg-[#81B29A] text-[#2E2E2E] px-5 py-2 rounded-full transition duration-300 shadow-sm">
+                  Watch Session
+                </button>
+              </a>
             </div>
           </div>
         ))}
